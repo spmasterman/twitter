@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - solution
+  redis:
+    image: "redis:latest"
+    hostname: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - solution
+  tracked:
+    image: spmasterman/tracked-hashtag
+    ports:
+      - "9090:9090"
+    networks:
+      - solution
+    depends_on:
+      - rabbitmq
+      - redis
+  dispatcher:
+    image: spmasterman/tweet-dispatcher
+    ports:
+      - "9099:9099"
+    networks:
+      - solution
+    depends_on:
+      - tracked
+  gathering:
+    image: spmasterman/tweet-gathering
+    ports:
+      - "8081:8081"
+    networks:
+      - solution
+    environment:
+      - CONSUMER_KEY=
+      - CONSUMER_SECRET=
+      - ACCESS_TOKEN=
+      - ACCESS_TOKEN_SECRET=
+    depends_on:
+      - dispatcher
+
+networks:
+  solution:
+    driver: bridge
