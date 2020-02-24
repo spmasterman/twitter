@@ -14,7 +14,6 @@ class TrackedHashTagService(private val repository: TrackedHashTagRepository,
                             @Value("\${exchange.twitter}") private val exchange: String,
                             @Value("\${routing_key.track}") private val routingKey: String) {
 
-
     fun save(hashTag: TrackedHashTag) {
         this.repository.save(hashTag).subscribe {
             Mono.fromFuture(CompletableFuture.runAsync {
@@ -23,6 +22,6 @@ class TrackedHashTagService(private val repository: TrackedHashTagRepository,
         }
     }
 
-    fun all() = this.repository.findAll()
+    fun all() = this.repository::findAll
 
 }

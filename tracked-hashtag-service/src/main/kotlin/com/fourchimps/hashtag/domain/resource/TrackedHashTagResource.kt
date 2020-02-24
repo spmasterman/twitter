@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*
 class TrackedHashTagResource(private val service: TrackedHashTagService) {
 
     @GetMapping
-    fun all() = this.service.all()
+    fun all() = this.service::all
 
     @PostMapping
-    fun save(@RequestBody hashTag:TrackedHashTag) = this.service.save(hashTag)
+    fun save(@RequestBody hashTag: TrackedHashTag) = this.service::save
 }
