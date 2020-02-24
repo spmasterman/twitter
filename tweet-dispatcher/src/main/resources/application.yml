@@ -14,6 +14,15 @@ queue:
 exchange:
   twitter: twitter-exchange
 
+info:
+  project: "tweet-dispatcher"
+  kotlin: @kotlin.version@
+
+management:
+  endpoints:
+    web:
+      expose: "*"
+
 ---
 
 spring:

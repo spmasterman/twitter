@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "starting hashtag"
+docker run --rm -d --name hashtag -p 9090:9090 spmasterman/tracked-hashtag:latest
+

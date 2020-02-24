@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "starting gather"
+docker run --rm -d --name gather -p 9099:9099 spmasterman/tweet-dispatcher:latest
+

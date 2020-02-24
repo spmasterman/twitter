@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "starting redis"
+docker run --rm -d --name redis -p 6379:6379 redis:latest
+

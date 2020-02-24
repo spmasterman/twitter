@@ -17,14 +17,19 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
 class RabbitMQConfiguration(
         @Value("\${queue.twitter}") private val queue: String,
         @Value("\${exchange.twitter}") private val exchange: String,
-        @Value("\${routing_key.track}") private val routingKey: String) {
+        @Value("\${routing_key.track}") private val routingKey: String,
+        @Value("\${spring.rabbitmq.host}") private val host: String,
+        @Value("\${spring.rabbitmq.username}") private val user: String,
+        @Value("\${spring.rabbitmq.password}") private val pass: String,
+        @Value("\${spring.rabbitmq.port}") private val port: Int
+        ) {
 
     private val logger = KotlinLogging.logger {}
 
     @Bean
     fun queue(): Queue {
+        logger.info { "Rabbit Connection: $host $user $pass $port"}
         logger.info { "Queue: $queue" }
-
         return Queue(this.queue, false)
     }
 

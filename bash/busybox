@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "starting busybox"
+docker run -it --rm --name busybox busybox:latest
+

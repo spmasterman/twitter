@@ -19,6 +19,15 @@ exchange:
 routing_key:
   track: track.*
 
+info:
+  project: "tracked-hashtag"
+  kotlin: @kotlin.version@
+
+management:
+  endpoints:
+    web:
+      expose: "*"
+
 ---
 
 spring:
