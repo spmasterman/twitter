@@ -17,7 +17,7 @@ queue:
 exchange:
   twitter: twitter-track-exchange
 routing_key:
-  track: "*"
+  track: track.*
 
 ---
 

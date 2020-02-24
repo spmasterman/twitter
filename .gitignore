@@ -43,3 +43,5 @@ Temporary Items
 !/.idea/runConfigurations/
 /platform/.vagrant/
 /platform/*.log
+!/docker-compose.yml
+/docker-compose.yml
