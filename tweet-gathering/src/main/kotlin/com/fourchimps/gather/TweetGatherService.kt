@@ -2,26 +2,65 @@ package com.fourchimps.gather
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import mu.KotlinLogging
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.BodyInserters
+import org.springframework.web.reactive.function.client.ClientRequest
+import org.springframework.web.reactive.function.client.ClientResponse
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+import java.util.function.Consumer
 
 @Service
 class TweetGatherService(private val twitterAppSettings: TwitterAppSettings,
                          private val twitterToken: TwitterToken,
                          private val webClient: WebClient) {
 
+    private val logger = KotlinLogging.logger {}
+
     fun streamFrom(query: String): Flux<Tweet> {
         val url = "http://stream.twitter.com/1.1/statuses/filter.json"
-        return this.webClient.mutate().baseUrl(url).build()
+
+        return this.webClient
+                    .mutate()
+                    .baseUrl(url)
+                    .filters {
+                        it.add(0, logRequest())
+                        it.add(1, logResponse())
+                    }
+                    .build()
                 .post()
                 .body(BodyInserters.fromFormData("track", query))
                 .header("Authorization", Twitter.buildAuthHeader(twitterAppSettings, twitterToken, "POST", url, query))
                 .accept(MediaType.TEXT_EVENT_STREAM)
                 .retrieve()
                 .bodyToFlux(Tweet::class.java)
+    }
+
+
+    // This method returns filter function which will log request data
+    private fun logRequest(): ExchangeFilterFunction {
+        return ExchangeFilterFunction.ofRequestProcessor { clientRequest: ClientRequest ->
+            logger.info {"Request: ${clientRequest.method()} ${clientRequest.url()}"}
+            clientRequest.headers()
+                    .forEach { name: String?, values: List<String?> -> values.forEach(
+                            Consumer { value: String? -> logger.info {"${name}=${value}"} }) }
+            Mono.just(clientRequest)
+        }
+    }
+
+    // This method returns filter function which will log request data
+    private fun logResponse(): ExchangeFilterFunction {
+        return ExchangeFilterFunction.ofResponseProcessor { clientResponse: ClientResponse ->
+            logger.info {"Response: ${clientResponse.statusCode()} "}
+            clientResponse.headers().asHttpHeaders()
+                    .forEach { name: String?, values: List<String?> -> values.forEach(
+                            Consumer { value: String? -> logger.info {"${name}=${value}"} }) }
+            Mono.just(clientResponse)
+        }
     }
 }
 

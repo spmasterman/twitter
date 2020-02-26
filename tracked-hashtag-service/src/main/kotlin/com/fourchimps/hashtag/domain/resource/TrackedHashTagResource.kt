@@ -12,5 +12,7 @@ class TrackedHashTagResource(private val service: TrackedHashTagService) {
     fun all() = this.service::all
 
     @PostMapping
-    fun save(@RequestBody hashTag: TrackedHashTag) = this.service::save
+    fun save(@RequestBody hashTag: TrackedHashTag) {
+        this.service.save(hashTag)
+    }
 }
