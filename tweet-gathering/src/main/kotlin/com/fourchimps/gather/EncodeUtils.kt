@@ -1,5 +1,6 @@
 package com.fourchimps.gather
 
+import mu.KotlinLogging
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 import java.security.GeneralSecurityException
@@ -9,11 +10,14 @@ import javax.crypto.spec.SecretKeySpec
 
 object EncodeUtils {
 
+    private val logger = KotlinLogging.logger {}
+
     fun encode(value: String): String {
         var encoded: String? = null
         try {
             encoded = URLEncoder.encode(value, "UTF-8")
         } catch (ignore: UnsupportedEncodingException) {
+            logger.warn { " Unsupported encoding" }
         }
 
         val buf = StringBuilder(encoded!!.length)

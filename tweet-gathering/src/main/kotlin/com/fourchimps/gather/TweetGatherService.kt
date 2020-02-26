@@ -28,8 +28,6 @@ class TweetGatherService(private val twitterAppSettings: TwitterAppSettings,
 
         logger.info { "streamFrom $query body: $body auth: $auth" }
 
-
-
         return this.webClient
                 .mutate()
                 .baseUrl(url)

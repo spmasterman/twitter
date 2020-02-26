@@ -3,6 +3,7 @@ package com.fourchimps.dispatcher
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.ObjectMapper
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
@@ -14,9 +15,14 @@ class TwitterDispatcher(@Value("\${queue.twitter}") private val queue: String,
                         private val receiver: Receiver,
                         private val mapper: ObjectMapper) {
 
+    private val logger = KotlinLogging.logger {}
+
     fun dispatch(): Flux<Tweet> {
-        return this.receiver.consumeAutoAck(this.queue).flatMap { message ->
-            Mono.just(mapper.readValue<Tweet>(String(message.body), Tweet::class.java))
+        return this.receiver
+                .consumeAutoAck(this.queue)
+                .flatMap { message ->
+                    logger.info { "dispatching tweet ${message.body} "}
+                    Mono.just(mapper.readValue<Tweet>(String(message.body), Tweet::class.java))
         }
     }
 }
