@@ -33,10 +33,10 @@ job "twitter" {
       }
 
       env {
-        CONSUMER_KEY = "Q4Pms9lh3BzK8beH7kirCsDgZ"
-        CONSUMER_SECRET = "4ZJ13VgHPlLaUyYB2MzaUObkv4XCKvExR88QRtnSmMOSqjoWp7"
-        ACCESS_TOKEN="16837725-d7beho1JKgcUp8om2diIEA3PfNw9GR8xCxxjMr59w"
-        ACCESS_TOKEN_SECRET = "9AX4qtVxqjP9Q08UXMAgIezxF9Iv89ECftL5RQG0QxJRv"
+        CONSUMER_KEY = "..."
+        CONSUMER_SECRET = "..."
+        ACCESS_TOKEN="..."
+        ACCESS_TOKEN_SECRET = "..."
       }
 
       resources {

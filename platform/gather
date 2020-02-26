@@ -3,10 +3,10 @@
 echo "starting gather"
 
 docker run --rm -d --name dispatch -p 8081:8081 \
-      -e CONSUMER_KEY=Q4Pms9lh3BzK8beH7kirCsDgZ \
-      -e CONSUMER_SECRET=4ZJ13VgHPlLaUyYB2MzaUObkv4XCKvExR88QRtnSmMOSqjoWp7 \
-      -e ACCESS_TOKEN=16837725-d7beho1JKgcUp8om2diIEA3PfNw9GR8xCxxjMr59w \
-      -e ACCESS_TOKEN_SECRET=9AX4qtVxqjP9Q08UXMAgIezxF9Iv89ECftL5RQG0QxJRv spmasterman/tweet-gathering:latest
+      -e CONSUMER_KEY=... \
+      -e CONSUMER_SECRET=... \
+      -e ACCESS_TOKEN=... \
+      -e ACCESS_TOKEN_SECRET=... spmasterman/tweet-gathering:latest
 
 
 

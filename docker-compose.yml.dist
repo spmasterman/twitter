@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
   rabbitmq:
@@ -10,14 +10,14 @@ services:
     networks:
       - solution
   redis:
-    image: "redis:latest"
+    image: redis:latest
     hostname: redis
     ports:
       - "6379:6379"
     networks:
       - solution
   tracked:
-    image: spmasterman/tracked-hashtag
+    image: spmasterman/tracked-hashtag:latest
     ports:
       - "9090:9090"
     networks:
@@ -26,15 +26,15 @@ services:
       - rabbitmq
       - redis
   dispatcher:
-    image: spmasterman/tweet-dispatcher
+    image: spmasterman/tweet-dispatcher:latest
     ports:
       - "9099:9099"
     networks:
       - solution
     depends_on:
-      - tracked
+      - rabbitmq
   gathering:
-    image: spmasterman/tweet-gathering
+    image: spmasterman/tweet-gathering:latest
     ports:
       - "8081:8081"
     networks:
@@ -42,10 +42,10 @@ services:
     environment:
       - CONSUMER_KEY=
       - CONSUMER_SECRET=
-      - ACCESS_TOKEN=
+      - ACCESS_TOKEN=16837725-
       - ACCESS_TOKEN_SECRET=
     depends_on:
-      - dispatcher
+      - rabbitmq
 
 networks:
   solution:
