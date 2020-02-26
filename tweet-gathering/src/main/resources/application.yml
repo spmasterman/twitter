@@ -31,6 +31,12 @@ management:
     web:
       expose: "*"
 
+logging:
+  level:
+    root: ERROR
+    org.springframework.web: DEBUG
+    com.fourchimps: DEBUG
+
 ---
 
 spring:
